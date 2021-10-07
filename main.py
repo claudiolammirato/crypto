@@ -15,7 +15,9 @@ def main():
     data = yf.download(tickers='BTC-USD', period = '1y', interval = '1h')
     data['SMA20'] = SMA(data.Close, 20)
     data['SMA200'] = SMA(data.Close, 200)
-    
+    data["DeltaPerc"] = data.Close.pct_change()
+    data["BuyHold"] = (data.DeltaPerc + 1).cumprod() * 100    
+    data.dropna(inplace = True)
 
     print(data.tail(10))
 
