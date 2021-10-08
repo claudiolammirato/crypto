@@ -26,6 +26,11 @@ def main():
     data["StrategyPercentage"] = data.DeltaPerc * data.Position # variazione % puntuale filtrata da Poisition per indicare quando operare o rimanere flat
     data["Strategy"] = (data.StrategyPercentage + 1).cumprod() *100#
 
+    Statistics = pd.DataFrame(data.BuyHold.diff().resample("A").sum())#variazione percentuale cumulata per ciasun anno "A"
+    Statistics["Strategy"] = pd.DataFrame(data.Strategy.diff().resample("A").sum())
+
+    print(Statistics)
+
     plt.figure(figsize=(8,4), dpi=100)
     plt.plot(data.BuyHold, color='red', linewidth=1.0)
     plt.plot(data.Strategy, color='green', linewidth=1.0)
