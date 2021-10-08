@@ -3,7 +3,8 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
-
+import cufflinks as cf
+from plotly.offline import download_plotlyjs, init_notebook_mode, plot, iplot
 
 #Data Source
 import yfinance as yf
@@ -38,6 +39,14 @@ def main():
         plt.show()
         return
 
+    def plotly(operation):
+        cf.go_offline()
+        cf.set_config_file(offline=False, world_readable=True)
+        operation.iplot(kind='line', color='green', theme='white',showlegend=True, title='SPY Daily', xTitle='Tempo', yTitle='Prezzo')
+        print('finished')
+        return
+        
+
 
         
     # Get Bitcoin data
@@ -64,11 +73,11 @@ def main():
     
 
     #print(data.BuyHold.diff())
-    plot_equity_map(data.BuyHold.diff(), True)
-    plot_equity_map(data.Strategy.diff(), True)
-
-
+    #plot_equity_map(data.BuyHold.diff(), True)
+    #plot_equity_map(data.Strategy.diff(), True)
+    #print(data.Close)
     #plot()
+    plotly(data.Close)
 
     #print(data.tail(10))
 
